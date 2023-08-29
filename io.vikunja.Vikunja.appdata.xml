@@ -2,7 +2,7 @@
 <component type="desktop">
 	<id>io.vikunja.Vikunja</id>
 	<name>Vikunja</name>
-	<summary>The open-source, self-hostable to-do app. Organize everything, on all platforms.</summary>
+	<summary>The open-source to-do app</summary>
 	<description>
 		<p>Think of Vikunja like the notebook you have with all your things to keep track of.</p>
 		<p>But with superpowers.</p>
