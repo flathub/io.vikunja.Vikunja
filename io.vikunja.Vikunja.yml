@@ -36,7 +36,7 @@ modules:
     sources:
       - type: archive
         url: https://dl.vikunja.io/desktop/0.22.1/Vikunja%20Desktop-0.22.1.tar.gz
-        sha256: d5e71f6719f9873183e0fc07b087131e82c10440c7386355494a772b2c4dcac0
+        sha256: 4abe59e8a28293d8bb44912c446bae4e664db5c2b45d8e72136da81ba61cd1d5
         only-arches: [x86_64]
       - type: file
         path: vikunja.sh
