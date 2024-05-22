@@ -6,4 +6,5 @@ Type=Application
 Categories=Utility;
 Keywords=todo;task;
 Icon=io.vikunja.Vikunja
+StartupWMClass=vikunja-desktop
 Exec=vikunja
