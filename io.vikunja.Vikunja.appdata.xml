@@ -22,7 +22,7 @@
 		<p>You can view your tasks in the classic list view -or in a Gantt Chart, or Table view, or Kanban Board!</p>
 	</description>
 	<screenshots>
-		<screenshot>
+		<screenshot type="default">
 			<caption>The "Overview" page of Vikunja with a light theme</caption>
 			<image>https://vikunja.io/images/vikunja/01-task-overview.png</image>
 		</screenshot>
@@ -41,4 +41,7 @@
 	<releases>
 		<release version="0.21.0" date="2023-7-10" />
 	</releases>
+	<developer id="io.vikunja">
+		<name>kolaente</name>
+	</developer>
 </component>
