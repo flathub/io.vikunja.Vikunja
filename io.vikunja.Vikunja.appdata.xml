@@ -39,12 +39,12 @@
 	<url type="bugtracker">https://kolaente.dev/vikunja/desktop/issues</url>
 	<url type="help">https://community.vikunja.io</url>
 	<releases>
-		<release version="0.21.0" date="2023-7-10" />
-		<release version="0.22.0" date="2023-12-19" />
-		<release version="0.22.1" date="2024-01-28" />
 		<release version="0.23.0" date="2024-02-01" />
+		<release version="0.22.1" date="2024-01-28" />
+		<release version="0.22.0" date="2023-12-19" />
+		<release version="0.21.0" date="2023-7-10" />
 	</releases>
-    <developer id="io.vikunja">
+  <developer id="io.vikunja">
 		<name>kolaente</name>
 	</developer>
 </component>
