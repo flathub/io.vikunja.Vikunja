@@ -36,7 +36,7 @@
 	<launchable type="desktop-id">io.vikunja.Vikunja.desktop</launchable>
 	<content_rating type="oars-1.1" />
 	<url type="homepage">https://vikunja.io</url>
-	<url type="bugtracker">https://kolaente.dev/vikunja/desktop/issues</url>
+	<url type="bugtracker">https://kolaente.dev/vikunja/vikunja/issues</url>
 	<url type="help">https://community.vikunja.io</url>
 	<releases>
 		<release version="0.23.0" date="2024-02-01" />
