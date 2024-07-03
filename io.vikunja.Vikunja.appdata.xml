@@ -24,11 +24,11 @@
 	<screenshots>
 		<screenshot type="default">
 			<caption>The "Overview" page of Vikunja with a light theme</caption>
-			<image>https://vikunja.io/images/vikunja/01-task-overview.png</image>
+			<image>https://vikunja.io/flathub-images/01-task-overview.png</image>
 		</screenshot>
 		<screenshot>
 			<caption>A to-do list with a dark theme</caption>
-			<image>https://vikunja.io/images/vikunja/09-task-detail-dark.png</image>
+			<image>https://vikunja.io/flathub-images/09-task-detail-dark.png</image>
 		</screenshot>
 	</screenshots>
 	<project_license>AGPL-3.0-or-later</project_license>
