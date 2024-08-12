@@ -39,6 +39,8 @@
 	<url type="bugtracker">https://kolaente.dev/vikunja/vikunja/issues</url>
 	<url type="help">https://community.vikunja.io</url>
 	<releases>
+		<release version="0.24.2" date="2024-08-12" />
+		<release version="0.24.1" date="2024-07-18" />
 		<release version="0.24.0" date="2024-07-02" />
 		<release version="0.23.0" date="2024-02-01" />
 		<release version="0.22.1" date="2024-01-28" />
