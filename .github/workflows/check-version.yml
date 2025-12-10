@@ -1,0 +1,130 @@
+name: Check for new Vikunja releases
+
+on:
+  schedule:
+    # Run daily at 9 AM UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch:  # Allow manual trigger for testing
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch latest release from upstream
+        id: latest_release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Fetch latest release (including pre-releases for v1.x)
+          # Get the first release from the releases list (most recent)
+          RELEASE_INFO=$(gh api repos/go-vikunja/vikunja/releases --jq '.[0]')
+          LATEST_VERSION=$(echo "$RELEASE_INFO" | jq -r '.tag_name')
+
+          # Strip 'v' prefix if present
+          LATEST_VERSION="${LATEST_VERSION#v}"
+
+          # Only process v1.x versions (skip v0.x)
+          if [[ ! "$LATEST_VERSION" =~ ^1\. ]]; then
+            echo "Skipping version $LATEST_VERSION (only v1.x supported)"
+            exit 0
+          fi
+
+          echo "Latest upstream version: $LATEST_VERSION"
+          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Get current version
+        id: current_version
+        run: |
+          # Extract version from the YAML manifest
+          # For v1.x: url contains /desktop/v1.0.0-rc1/
+          # Extract the version directory name and strip 'v' prefix
+          CURRENT_VERSION=$(grep -oP 'url: https://dl\.vikunja\.io/desktop/\K[^/]+' io.vikunja.Vikunja.yml)
+          CURRENT_VERSION="${CURRENT_VERSION#v}"
+
+          echo "Current version: $CURRENT_VERSION"
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        id: compare
+        run: |
+          LATEST="${{ steps.latest_release.outputs.version }}"
+          CURRENT="${{ steps.current_version.outputs.version }}"
+
+          if [ "$LATEST" = "$CURRENT" ]; then
+            echo "Already up to date (version $CURRENT)"
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          else
+            echo "Update needed: $CURRENT -> $LATEST"
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure git
+        if: steps.compare.outputs.needs_update == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create update branch
+        if: steps.compare.outputs.needs_update == 'true'
+        id: branch
+        run: |
+          VERSION="${{ steps.latest_release.outputs.version }}"
+          BRANCH_NAME="auto-update-v${VERSION}"
+
+          # Check if branch already exists
+          if git ls-remote --exit-code --heads origin "$BRANCH_NAME" >/dev/null 2>&1; then
+            echo "Branch $BRANCH_NAME already exists, skipping update"
+            echo "exists=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          git checkout -b "$BRANCH_NAME"
+          echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "exists=false" >> $GITHUB_OUTPUT
+
+      - name: Run update script
+        if: steps.compare.outputs.needs_update == 'true' && steps.branch.outputs.exists == 'false'
+        run: |
+          VERSION="${{ steps.latest_release.outputs.version }}"
+          chmod +x update-version.sh
+          ./update-version.sh "$VERSION"
+
+      - name: Commit changes
+        if: steps.compare.outputs.needs_update == 'true' && steps.branch.outputs.exists == 'false'
+        run: |
+          VERSION="${{ steps.latest_release.outputs.version }}"
+          git add io.vikunja.Vikunja.yml io.vikunja.Vikunja.appdata.xml
+          git commit -m "feat: update to $VERSION"
+
+      - name: Push branch
+        if: steps.compare.outputs.needs_update == 'true' && steps.branch.outputs.exists == 'false'
+        run: |
+          git push -u origin "${{ steps.branch.outputs.name }}"
+
+      - name: Create pull request
+        if: steps.compare.outputs.needs_update == 'true' && steps.branch.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.latest_release.outputs.version }}"
+          gh pr create \
+            --title "feat: update to $VERSION" \
+            --body "Automated update to Vikunja Desktop version $VERSION
+
+This PR updates the Flatpak manifest to the latest release.
+
+**Upstream Release:** https://github.com/go-vikunja/vikunja/releases/tag/v$VERSION
+**Changelog:** https://vikunja.io/changelog/
+
+---
+🤖 This PR was automatically created by the check-version workflow."
