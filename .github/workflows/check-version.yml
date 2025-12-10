@@ -40,7 +40,7 @@ jobs:
           fi
 
           echo "Latest upstream version: $LATEST_VERSION"
-          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Get current version
         id: current_version
@@ -52,7 +52,7 @@ jobs:
           CURRENT_VERSION="${CURRENT_VERSION#v}"
 
           echo "Current version: $CURRENT_VERSION"
-          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Compare versions
         id: compare
@@ -62,10 +62,10 @@ jobs:
 
           if [ "$LATEST" = "$CURRENT" ]; then
             echo "Already up to date (version $CURRENT)"
-            echo "needs_update=false" >> $GITHUB_OUTPUT
+            echo "needs_update=false" >> "$GITHUB_OUTPUT"
           else
             echo "Update needed: $CURRENT -> $LATEST"
-            echo "needs_update=true" >> $GITHUB_OUTPUT
+            echo "needs_update=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Configure git
@@ -84,13 +84,13 @@ jobs:
           # Check if branch already exists
           if git ls-remote --exit-code --heads origin "$BRANCH_NAME" >/dev/null 2>&1; then
             echo "Branch $BRANCH_NAME already exists, skipping update"
-            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "exists=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
           git checkout -b "$BRANCH_NAME"
-          echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
-          echo "exists=false" >> $GITHUB_OUTPUT
+          echo "name=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
+          echo "exists=false" >> "$GITHUB_OUTPUT"
 
       - name: Run update script
         if: steps.compare.outputs.needs_update == 'true' && steps.branch.outputs.exists == 'false'
@@ -119,12 +119,15 @@ jobs:
           VERSION="${{ steps.latest_release.outputs.version }}"
           gh pr create \
             --title "feat: update to $VERSION" \
-            --body "Automated update to Vikunja Desktop version $VERSION
+            --body "$(cat <<EOF
+          Automated update to Vikunja Desktop version $VERSION
 
-This PR updates the Flatpak manifest to the latest release.
+          This PR updates the Flatpak manifest to the latest release.
 
-**Upstream Release:** https://github.com/go-vikunja/vikunja/releases/tag/v$VERSION
-**Changelog:** https://vikunja.io/changelog/
+          **Upstream Release:** https://github.com/go-vikunja/vikunja/releases/tag/v$VERSION
+          **Changelog:** https://vikunja.io/changelog/
 
----
-🤖 This PR was automatically created by the check-version workflow."
+          ---
+          🤖 This PR was automatically created by the check-version workflow.
+          EOF
+          )"
