@@ -117,6 +117,15 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           VERSION="${{ steps.latest_release.outputs.version }}"
+
+          # Check if a PR already exists for this version
+          EXISTING_PR=$(gh pr list --state all --search "update to $VERSION in:title" --json number --jq '.[0].number')
+
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Pull request already exists for version $VERSION (PR #$EXISTING_PR)"
+            exit 0
+          fi
+
           gh pr create \
             --title "feat: update to $VERSION" \
             --body "$(cat <<EOF
