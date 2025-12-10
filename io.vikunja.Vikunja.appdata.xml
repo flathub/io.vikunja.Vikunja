@@ -39,6 +39,7 @@
 	<url type="bugtracker">https://github.com/go-vikunja/vikunja/issues</url>
 	<url type="help">https://community.vikunja.io</url>
 	<releases>
+		<release version="1.0.0-rc3" date="2025-11-27" />
 		<release version="0.24.6" date="2024-12-22" />
 		<release version="0.24.3" date="2024-09-20" />
 		<release version="0.24.2" date="2024-08-12" />

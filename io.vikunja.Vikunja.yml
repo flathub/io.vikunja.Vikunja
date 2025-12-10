@@ -36,8 +36,8 @@ modules:
       - mv * /app/bin/extra/
     sources:
       - type: archive
-        url: https://dl.vikunja.io/desktop/0.24.6/Vikunja%20Desktop-v0.24.6.tar.gz
-        sha256: 32199e30d61dc99fc5b5b4197835bb65472f8dc11b46446018533d94f5c84e44
+        url: https://dl.vikunja.io/desktop/v1.0.0-rc3/Vikunja%20Desktop-unstable.tar.gz
+        sha256: ad43a2de7f527ba6c3ee03e4430a41dfd6d2e27d11585ab049681de19def94db
         only-arches: [x86_64]
       - type: file
         path: vikunja.sh
