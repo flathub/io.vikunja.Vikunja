@@ -32,7 +32,7 @@ echo "Updating Vikunja to version $VERSION..."
 # v0.x uses: /desktop/{version}/Vikunja Desktop-v{version}.tar.gz (but we're not supporting this anymore)
 if [[ "$VERSION" =~ ^1\. ]]; then
     # v1.x versions: directory has 'v' prefix, filename is 'unstable'
-    DOWNLOAD_URL="https://dl.vikunja.io/desktop/v${VERSION}/Vikunja%20Desktop-unstable.tar.gz"
+    DOWNLOAD_URL="https://dl.vikunja.io/desktop/v${VERSION}/Vikunja%20Desktop-v${VERSION}.tar.gz"
 else
     echo "Error: Only v1.x versions are supported"
     exit 1
