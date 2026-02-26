@@ -33,12 +33,6 @@ jobs:
           # Strip 'v' prefix if present
           LATEST_VERSION="${LATEST_VERSION#v}"
 
-          # Only process v1.x versions (skip v0.x)
-          if [[ ! "$LATEST_VERSION" =~ ^1\. ]]; then
-            echo "Skipping version $LATEST_VERSION (only v1.x supported)"
-            exit 0
-          fi
-
           echo "Latest upstream version: $LATEST_VERSION"
           echo "version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
 
