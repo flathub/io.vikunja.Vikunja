@@ -38,6 +38,7 @@
 	<url type="homepage">https://vikunja.io</url>
 	<url type="bugtracker">https://github.com/go-vikunja/vikunja/issues</url>
 	<url type="help">https://community.vikunja.io</url>
+	<url type="vcs-browser">https://github.com/go-vikunja/vikunja</url>
 	<releases>
 		<release version="2.2.2" date="2026-03-23" />
 		<release version="2.2.0" date="2026-03-20" />
