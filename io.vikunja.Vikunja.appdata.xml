@@ -40,6 +40,7 @@
 	<url type="help">https://community.vikunja.io</url>
 	<url type="vcs-browser">https://github.com/go-vikunja/vikunja</url>
 	<releases>
+		<release version="2.3.0" date="2026-04-09" />
 		<release version="2.2.2" date="2026-03-23" />
 		<release version="2.2.0" date="2026-03-20" />
 		<release version="2.1.0" date="2026-02-27" />
