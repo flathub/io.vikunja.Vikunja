@@ -7,4 +7,5 @@ Categories=Utility;
 Keywords=todo;task;
 Icon=io.vikunja.Vikunja
 StartupWMClass=vikunja-desktop
-Exec=vikunja
+MimeType=x-scheme-handler/vikunja-desktop;
+Exec=vikunja %u
