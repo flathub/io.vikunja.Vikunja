@@ -1,9 +1,9 @@
 app-id: io.vikunja.Vikunja
 
 base: org.electronjs.Electron2.BaseApp
-base-version: '24.08'
+base-version: '26.08'
 runtime: org.freedesktop.Platform
-runtime-version: '24.08'
+runtime-version: '26.08'
 
 sdk: org.freedesktop.Sdk
 sdk-extensions:
@@ -36,8 +36,8 @@ modules:
       - mv * /app/bin/extra/
     sources:
       - type: archive
-        url: https://dl.vikunja.io/desktop/v2.3.0/Vikunja%20Desktop-v2.3.0.tar.gz
-        sha256: 418280701937d6080fd8638b818288a10c048962db65be74dc66265984ffd0a4
+        url: https://dl.vikunja.io/desktop/v2.7.0/Vikunja%20Desktop-v2.7.0.tar.gz
+        sha256: a237940e5a4675013c5d7d05fc6367064d8ba28cc6916d75759106a822ffe8fa
         only-arches: [x86_64]
       - type: file
         path: vikunja.sh
